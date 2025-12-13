@@ -1,17 +1,25 @@
 @import "tailwindcss";
 
+/* Your CSS variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --offWhite2: #faf9f6;
+  --mauveDeep: #8b6f7e;
+  --roseSoft: #e9d7d3;
+  --burgundyDark: #6b4e5d;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Google Fonts */
+@theme {
+  --font-bodoni: "Bodoni Moda", serif;
+  --font-caveat: "Caveat", cursive;
+  --font-cormorant: "Cormorant Garamond", serif;
+  --font-rouge: "Rouge Script", cursive;
+  --font-playfair: "Playfair Display", serif;
 }
 
+/* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -24,3 +32,55 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 15s linear infinite;
+  display: flex;
+  will-change: transform;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.delay-75 {
+  animation-delay: 0.75s;
+}
+
+.delay-100 {
+  animation-delay: 1s;
+}
+
+.delay-150 {
+  animation-delay: 1.5s;
+}
+
+.delay-200 {
+  animation-delay: 2s;
+}
+
+.delay-250 {
+  animation-delay: 2.5s;
+}
+
+.delay-300 {
+  animation-delay: 3s;
+}
+
