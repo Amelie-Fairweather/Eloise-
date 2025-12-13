@@ -32,16 +32,26 @@ export async function POST(request: NextRequest) {
       airtableTableId = airtableTableId.split('/')[0];
     }
 
+    // Debug: Log which variables are missing (without exposing values)
     if (!airtableApiKey || !airtableBaseId) {
-      console.error('Airtable credentials not configured');
+      console.error('Airtable credentials not configured:', {
+        hasApiKey: !!airtableApiKey,
+        hasBaseId: !!airtableBaseId,
+        hasTableId: !!airtableTableId,
+        envKeys: Object.keys(process.env).filter(key => key.includes('AIRTABLE'))
+      });
       return NextResponse.json(
-        { error: 'Airtable not configured' },
+        { 
+          error: 'Airtable not configured',
+          details: 'Missing environment variables. Please add AIRTABLE_API_KEY, AIRTABLE_BASE_ID, and AIRTABLE_TABLE_ID in Vercel dashboard.'
+        },
         { status: 500 }
       );
     }
 
     // Prepare the payload for Airtable
     // Airtable expects field names to match exactly what's in your table
+    // Based on the Airtable table structure: Name, Email, Phone, Brief des
     const payload = {
       records: [
         {
@@ -54,6 +64,13 @@ export async function POST(request: NextRequest) {
         }
       ]
     };
+
+    console.log('Submitting to Airtable:', {
+      baseId: airtableBaseId,
+      tableId: airtableTableId,
+      url: airtableUrl,
+      payload: payload
+    });
 
     // Airtable API endpoint
     const airtableUrl = `https://api.airtable.com/v0/${airtableBaseId}/${airtableTableId}`;
@@ -74,7 +91,38 @@ export async function POST(request: NextRequest) {
     const responseData = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      console.error('Airtable API Error:', response.status, responseData);
+      console.error('Airtable API Error:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: responseData
+      });
+      
+      // If field name error, try with "Brief description" instead
+      if (responseData.error?.message?.includes('Brief des') || response.status === 422) {
+        console.log('Trying with "Brief description" field name...');
+        payload.records[0].fields['Brief description'] = message;
+        delete payload.records[0].fields['Brief des'];
+        
+        const retryResponse = await fetch(airtableUrl, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(payload),
+        });
+        
+        const retryData = await retryResponse.json().catch(() => ({}));
+        
+        if (retryResponse.ok) {
+          return NextResponse.json(
+            { 
+              success: true,
+              message: 'Form submitted successfully',
+              data: retryData
+            },
+            { status: 200 }
+          );
+        }
+      }
+      
       return NextResponse.json(
         { error: responseData.error?.message || 'Failed to submit form to Airtable' },
         { status: response.status }
