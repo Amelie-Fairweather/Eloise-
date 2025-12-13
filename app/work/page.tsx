@@ -95,6 +95,7 @@ export default function Work() {
           </div>
         </div>
       )}
+       <div className="text-lg font-cormorant text-center pb-10 pt-10">Website by Amelie Fairweather (afairweather.org) </div>
     </div>
   );
 }

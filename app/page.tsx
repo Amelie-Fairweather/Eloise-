@@ -223,7 +223,9 @@ I'm still growing and evolving, but I'm excited about where I'm headed and every
      <div className="font-cormorant font-bold text-5xl pb-10 text-pink-300">Request a piece!</div>
     <div className="font-cormorant font-bold text-3xl text-pink-300">ORDER FORM</div>
     <ContactForm />
-    </div>
+   
+    <div className="text-lg font-cormorant text-center pb-10 pt-10">Website by Amelie Fairweather (afairweather.org) </div>
+     </div>
     </div>
   );
 }

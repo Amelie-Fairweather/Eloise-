@@ -21,6 +21,7 @@ export default function UpcomingEvents() {
           Check back soon for upcoming events and exhibitions!
         </div>
       </div>
+       <div className="text-lg font-cormorant text-center pb-10 pt-100">Website by Amelie Fairweather (afairweather.org) </div>
     </div>
   );
 }
