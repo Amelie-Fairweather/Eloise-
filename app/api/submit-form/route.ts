@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
 
     // Prepare the payload for Airtable
     // Airtable expects field names to match exactly what's in your table
-    // Based on the Airtable table structure: Name, Email, Phone, Brief des
+    // Based on the Airtable table structure: Name, Email, Phone, Brief description
     const payload = {
       records: [
         {
@@ -59,11 +59,14 @@ export async function POST(request: NextRequest) {
             'Name': name,
             'Email': email,
             'Phone': phone,
-            'Brief des': message,
+            'Brief description': message,
           }
         }
       ]
     };
+
+    // Airtable API endpoint
+    const airtableUrl = `https://api.airtable.com/v0/${airtableBaseId}/${airtableTableId}`;
 
     console.log('Submitting to Airtable:', {
       baseId: airtableBaseId,
@@ -71,9 +74,6 @@ export async function POST(request: NextRequest) {
       url: airtableUrl,
       payload: payload
     });
-
-    // Airtable API endpoint
-    const airtableUrl = `https://api.airtable.com/v0/${airtableBaseId}/${airtableTableId}`;
 
     // Prepare headers for Airtable
     const headers: HeadersInit = {
@@ -94,37 +94,23 @@ export async function POST(request: NextRequest) {
       console.error('Airtable API Error:', {
         status: response.status,
         statusText: response.statusText,
-        error: responseData
+        error: responseData,
+        url: airtableUrl,
+        baseId: airtableBaseId,
+        tableId: airtableTableId
       });
       
-      // If field name error, try with "Brief description" instead
-      if (responseData.error?.message?.includes('Brief des') || response.status === 422) {
-        console.log('Trying with "Brief description" field name...');
-        payload.records[0].fields['Brief description'] = message;
-        delete payload.records[0].fields['Brief des'];
-        
-        const retryResponse = await fetch(airtableUrl, {
-          method: 'POST',
-          headers,
-          body: JSON.stringify(payload),
-        });
-        
-        const retryData = await retryResponse.json().catch(() => ({}));
-        
-        if (retryResponse.ok) {
-          return NextResponse.json(
-            { 
-              success: true,
-              message: 'Form submitted successfully',
-              data: retryData
-            },
-            { status: 200 }
-          );
-        }
+      // Provide helpful error messages
+      let errorMessage = responseData.error?.message || 'Failed to submit form to Airtable';
+      
+      if (response.status === 403 || responseData.error?.message?.includes('permissions')) {
+        errorMessage = 'API token does not have permission to access this base. Please check token scopes in Airtable.';
+      } else if (response.status === 404) {
+        errorMessage = 'Base or table not found. Please verify the Base ID and Table ID are correct.';
       }
       
       return NextResponse.json(
-        { error: responseData.error?.message || 'Failed to submit form to Airtable' },
+        { error: errorMessage },
         { status: response.status }
       );
     }
@@ -140,8 +126,12 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error processing form submission:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { error: 'Failed to process form submission' },
+      { 
+        error: 'Failed to process form submission',
+        details: errorMessage
+      },
       { status: 500 }
     );
   }
