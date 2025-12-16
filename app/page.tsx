@@ -208,7 +208,7 @@ export default function Home() {
   />
   </div>
     <div className="flex-1 max-w-2xl">
-    <div className="font-cormorant text-lg md:text-4xl leading-tight space-y-3">
+    <div className="font-cormorant text-xl md:text-3xl leading-tight space-y-3">
 
 Hi! I'm someone who's always curious, creative, and eager to learn new things. I enjoy exploring different ideas, working on projects that challenge me, and finding ways to express myself through both technology and design. I'm motivated by growth, I love solving problems, and I'm always looking for opportunities to improve and try something new.
 
