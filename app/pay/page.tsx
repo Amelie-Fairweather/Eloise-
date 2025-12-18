@@ -125,7 +125,7 @@ function PayPageContent() {
                 </button>
                 
                 <p className="font-cormorant text-lg text-center text-gray-600 italic">
-                  Please specify piece name and phone number in Venmo note. If you don't want the framing fee, just change the amount in Venmo.
+                  Please specify phone number in Venmo note. If you don't want the framing fee, just change the amount in Venmo.
                 </p>
                 
                 <Link
