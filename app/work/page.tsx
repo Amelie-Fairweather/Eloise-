@@ -4,16 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 
 const artwork = [
-  { id: 1, image: "/ada.jpg", title: "Untitled", price: 20 },
-  { id: 2, image: "/draw.jpg", title: "Untitled", price: 20 },
-  { id: 3, image: "/flower.jpg", title: "Untitled", price: 20 },
-  { id: 4, image: "/paint.jpg", title: "Untitled", price: 20 },
-  { id: 5, image: "/pear.jpg", title: "Untitled", price: 20 },
-  { id: 6, image: "/pen.jpg", title: "Untitled", price: 20 },
-  { id: 7, image: "/scribble.jpg", title: "Untitled", price: 20 },
-  { id: 8, image: "/shad.jpg", title: "Untitled", price: 20 },
-  { id: 9, image: "/squash.jpg", title: "Untitled", price: 20 },
-  { id: 10, image: "/unknown.jpg", title: "Untitled", price: 20 },
+  { id: 1, image: "/draw.jpg", title: "Seaweed Salad", price: 20 },
+  { id: 2, image: "/flower.jpg", title: "Red flowers", price: 20 },
+  { id: 3, image: "/pear.jpg", title: "Friends", price: 20 },
+  { id: 4, image: "/scribble.jpg", title: "Lady", price: 20 },
+  { id: 5, image: "/squash.jpg", title: "Squash", price: 20 },
+  { id: 6, image: "/unknown.jpg", title: "Pots n Pans", price: 20 },
 ];
 
 export default function Work() {

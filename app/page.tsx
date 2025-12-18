@@ -178,14 +178,11 @@ export default function Home() {
 <div className="overflow-hidden whitespace-nowrap py-6 w-full relative">
   <div className="flex animate-scroll gap-6">
     <img src="/draw.jpg" alt="drawing" className="h-[400px] w-auto rounded-lg flex-shrink-0" />
-    <img src="/paint.jpg" alt="painting" className="h-[400px] w-auto rounded-lg flex-shrink-0" />
-    <img src="/shad.jpg" alt="shade" className="h-[400px] w-auto rounded-lg flex-shrink-0" />
     <img src="/pear.jpg" alt="drawing" className="h-[400px] w-auto rounded-lg flex-shrink-0" />
-    <img src="/pen.jpg" alt="painting" className="h-[400px] w-auto rounded-lg flex-shrink-0" />
-    <img src="/ada.jpg" alt="shade" className="h-[400px] w-auto rounded-lg flex-shrink-0" />
     <img src="/unknown.jpg" alt="drawing" className="h-[400px] w-auto rounded-lg flex-shrink-0" />
     <img src="/flower.jpg" alt="painting" className="h-[400px] w-auto rounded-lg flex-shrink-0" />
     <img src="/squash.jpg" alt="shade" className="h-[400px] w-auto rounded-lg flex-shrink-0" />
+    <img src="/scribble.jpg" alt="scribble" className="h-[400px] w-auto rounded-lg flex-shrink-0" />
   </div>
  
 </div>
